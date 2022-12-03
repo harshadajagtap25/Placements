@@ -44,6 +44,7 @@ userController.post("/login", async (req, res) => {
         { email: user.email },
         {
           wrongCount: 0,
+          lastWrong: "",
         }
       );
       res.status(200).send({
@@ -59,16 +60,21 @@ userController.post("/login", async (req, res) => {
         }
       );
 
-      if (user.wrongCount >= 2) {
+      if (user.wrongCount == 5) {
         date = Date.now();
-        console.log(date);
         await UserModel.findOneAndUpdate(
           { email: user.email },
           { lastWrong: date }
         );
-        return res
-          .status(200)
-          .send({ error: true, msg: "Blocked user for 24 hr" });
+      }
+      if (user.wrongCount > 5) {
+        date = Date.now();
+        let up = await UserModel.findOne({ email: user.email });
+        const lockUpto = Number(up.lastWrong) + 86373889;
+        // console.log(Number(up.lastWrong) + 86373889);
+        if (date < lockUpto) {
+        }
+        return res.status(200).send({ error: true, msg: "Try after 24 hours" });
       }
       res.status(200).send({
         error: true,
