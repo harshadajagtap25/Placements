@@ -3,8 +3,7 @@ import * as types from "./actionTypes";
 
 const initState = {
   isAuth: false,
-  token: getData("todoApp_token") || undefined,
-  details: [],
+  token: getData("token") || undefined,
   isLoading: false,
   isError: false,
 };
@@ -41,7 +40,7 @@ const reducer = (state = initState, action) => {
       };
     }
     case types.LOGIN_SUCCESS: {
-      storeData("todoApp_token", payload);
+      storeData("token", payload);
       return {
         ...state,
         isLoading: false,
@@ -59,30 +58,16 @@ const reducer = (state = initState, action) => {
         token: undefined,
       };
     }
-    case types.GET_DETAILS_REQUEST: {
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    }
-    case types.GET_DETAILS_SUCCESS: {
+    case types.LOGOUT_SUCCESS:
+      storeData("token", "");
+      storeData("UserEmail", "");
+
       return {
         ...state,
         isLoading: false,
-        details: payload,
-        isError: false,
-        isAuth: true,
-        token: payload,
+        isAuth: false,
+        token: undefined,
       };
-    }
-    case types.GET_DETAILS_FAILURE: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    }
     default:
       return state;
   }

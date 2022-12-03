@@ -7,7 +7,6 @@ const SECRET_KEY = process.env.SECRET_KEY || "cointab";
 const { Router } = require("express");
 const userController = Router();
 
-// http://localhost:8080/user/signup
 userController.post("/signup", async (req, res) => {
   let { email, password, wrongCount } = req.body;
 
@@ -25,11 +24,9 @@ userController.post("/signup", async (req, res) => {
     .catch((err) => res.status(200).send({ error: true, msg: "Try again" }));
 });
 
-// http://localhost:8080/user/login
 userController.post("/login", async (req, res) => {
   let { email, password } = req.body;
   let user = await UserModel.findOne({ email });
-  // console.log(user.wrongCount);
 
   if (!user) {
     return res.status(200).send({ error: true, msg: "Invalid Username" });
@@ -39,6 +36,13 @@ userController.post("/login", async (req, res) => {
 
   bcrypt.compare(password, hash, async (err, result) => {
     if (result) {
+      date = Date.now();
+      let up = await UserModel.findOne({ email: user.email });
+      const lockUpto = Number(up.lastWrong) + 86373889;
+      
+      if (date < lockUpto) {
+        return res.status(200).send({ error: true, msg: "Try after 24 hours" });
+      }
       let token = jwt.sign({ userId: user._id }, SECRET_KEY);
       await UserModel.findOneAndUpdate(
         { email: user.email },
@@ -60,21 +64,23 @@ userController.post("/login", async (req, res) => {
         }
       );
 
-      if (user.wrongCount == 5) {
+      if (user.wrongCount == 3) {
         date = Date.now();
         await UserModel.findOneAndUpdate(
           { email: user.email },
           { lastWrong: date }
         );
       }
-      if (user.wrongCount > 5) {
+      if (user.wrongCount > 3) {
         date = Date.now();
         let up = await UserModel.findOne({ email: user.email });
         const lockUpto = Number(up.lastWrong) + 86373889;
-        // console.log(Number(up.lastWrong) + 86373889);
+
         if (date < lockUpto) {
+          return res
+            .status(200)
+            .send({ error: true, msg: "Try after 24 hours" });
         }
-        return res.status(200).send({ error: true, msg: "Try after 24 hours" });
       }
       res.status(200).send({
         error: true,

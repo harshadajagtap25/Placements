@@ -14,31 +14,32 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Select,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../Redux/AuthReducer/actions";
 import { COLORS } from "../Components/colors";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [alreadyExist, setAlreadyExist] = useState(false);
-
+  const navigate = useNavigate();
   const handleSignup = () => {
-    if (  email && password) {
+    if (email && password) {
       const payload = {
-        
         email,
         password,
       };
 
       dispatch(signup(payload)).then((r) => {
         if (r === "SIGNIN_FAILURE") setAlreadyExist(true);
+        else if (r === "SIGNIN_SUCCESS") {
+          navigate("/login");
+        }
       });
     }
   };
@@ -77,7 +78,6 @@ const Signup = () => {
               </HStack>
             )}
 
-            
             <FormControl id="email" isRequired>
               <FormLabel textColor={COLORS.purple}>Email address</FormLabel>
               <Input type="email" onChange={(e) => setEmail(e.target.value)} />
@@ -101,7 +101,7 @@ const Signup = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            
+
             <Stack spacing={10} pt={2}>
               <Button
                 loadingText="Submitting"

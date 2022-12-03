@@ -9,10 +9,12 @@ import {
   Button,
   Heading,
   useColorModeValue,
+  HStack,
+  Text,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { login } from "../Redux/AuthReducer/actions";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { storeData } from "../Utils/localStorage";
 import { COLORS } from "../Components/colors";
 
@@ -25,11 +27,10 @@ const Login = () => {
   const handleLogin = () => {
     const payload = { email: email, password: password };
     dispatch(login(payload)).then((r) => {
-      console.log(r)
-      // if (r === "LOGIN_SUCCESS") {
-      //   storeData("UserEmail", email);
-      //   navigate("/");
-      // }
+      if (r === "LOGIN_SUCCESS") {
+        storeData("UserEmail", email);
+        navigate("/");
+      }
     });
   };
   return (
@@ -78,6 +79,12 @@ const Login = () => {
                 Login
               </Button>
             </Stack>
+            <HStack pt={6} justifyContent={"center"}>
+              <Text align={"center"}>Don't have account? </Text>
+              <Link to="/signup">
+                <Text color={COLORS.purple}>Signup</Text>
+              </Link>
+            </HStack>
           </Stack>
         </Box>
       </Stack>

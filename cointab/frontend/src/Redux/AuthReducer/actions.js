@@ -22,34 +22,25 @@ const login = (payload) => (dispatch) => {
   return axios
     .post("http://localhost:8080/user/login", payload)
     .then((r) => {
-      dispatch({ type: types.LOGIN_SUCCESS, payload: r.data.token });
-      console.log(r.data);
-      return types.LOGIN_SUCCESS;
+      if (!r.data.error) {
+        dispatch({ type: types.LOGIN_SUCCESS, payload: r.data.token });
+        return types.LOGIN_SUCCESS;
+      } else {
+        dispatch({ type: types.LOGIN_FAILURE, payload: r.data.msg });
+        return types.LOGIN_FAILURE;
+      }
     })
     .catch((err) => {
-      dispatch({ type: types.LOGIN_FAILURE, payload: err.msg });
+      dispatch({ type: types.LOGIN_FAILURE, payload: err.data.msg });
       return types.LOGIN_FAILURE;
     });
 };
 
-const userDetails = (UserEmail, token) => (dispatch) => {
-  dispatch({ type: types.GET_DETAILS_REQUEST });
+const logout = (payload) => (dispatch) => {
+  dispatch({ type: types.LOGOUT_REQUEST });
 
-  return axios
-    .get(`http://localhost:8080/user/users/${UserEmail}`, {
-      headers: {
-        Authorization: `Basic ${token}`,
-      },
-    })
-    .then((r) => {
-      dispatch({ type: types.GET_DETAILS_SUCCESS, payload: r.data.data[0] });
-      // console.log(r.data.data[0]);
-      return types.GET_DETAILS_SUCCESS;
-    })
-    .catch((err) => {
-      dispatch({ type: types.GET_DETAILS_FAILURE, payload: err.msg });
-      return types.GET_DETAILS_FAILURE;
-    });
+  dispatch({ type: types.LOGOUT_SUCCESS, payload: undefined });
+  return types.LOGOUT_SUCCESS;
 };
 
-export { signup, login, userDetails };
+export { signup, login, logout };
