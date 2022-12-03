@@ -11,7 +11,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    let d = dispatch(logout());
+    dispatch(logout());
     navigate("/login");
   };
 
