@@ -5,7 +5,7 @@ const signup = (payload) => (dispatch) => {
   dispatch({ type: types.SIGNIN_REQUEST });
 
   return axios
-    .post(`http://localhost:8080/user/signup`, payload)
+    .post(`https://cointab-seven.vercel.app/user/signup`, payload)
     .then((r) => {
       dispatch({ type: types.SIGNIN_SUCCESS, payload: r.data });
       return types.SIGNIN_SUCCESS;
@@ -20,7 +20,7 @@ const login = (payload) => (dispatch) => {
   dispatch({ type: types.LOGIN_REQUEST });
 
   return axios
-    .post("http://localhost:8080/user/login", payload)
+    .post("https://cointab-seven.vercel.app/user/login", payload)
     .then((r) => {
       if (!r.data.error) {
         dispatch({ type: types.LOGIN_SUCCESS, payload: r.data.token });
