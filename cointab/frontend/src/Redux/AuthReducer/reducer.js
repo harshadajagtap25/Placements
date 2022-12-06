@@ -53,7 +53,7 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: true,
+        isError: payload,
         isAuth: false,
         token: undefined,
       };

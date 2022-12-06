@@ -12,7 +12,7 @@ import {
   HStack,
   Text,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/actions";
 import { Link, useNavigate } from "react-router-dom";
 import { storeData } from "../Utils/localStorage";
@@ -23,6 +23,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const isError = useSelector((store) => store.isError);
 
   const handleLogin = () => {
     const payload = { email: email, password: password };
@@ -30,6 +32,9 @@ const Login = () => {
       if (r === "LOGIN_SUCCESS") {
         storeData("UserEmail", email);
         navigate("/");
+      }
+      if (r === "LOGIN_FAILURE") {
+        setError(isError);
       }
     });
   };
@@ -54,6 +59,13 @@ const Login = () => {
           boxShadow={"lg"}
           p={8}
         >
+          <HStack mb={"10px"} justifyContent={"center"}>
+            {error && (
+              <Text align={"center"} color={"red"}>
+                {error}
+              </Text>
+            )}
+          </HStack>
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel textColor={COLORS.purple}>Email address</FormLabel>
