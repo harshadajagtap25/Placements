@@ -61,11 +61,6 @@
       "class": "red"
     },
     {
-      "id": 16,
-      "title": "New Added",
-      "class": "blue"
-    },
-    {
       "id": 17,
       "title": "New Added",
       "class": "green"
@@ -74,6 +69,16 @@
       "id": 18,
       "title": "New Added",
       "class": "black"
+    },
+    {
+      "id": 24,
+      "title": "New Added",
+      "class": "blue"
+    },
+    {
+      "id": 25,
+      "title": "New Added",
+      "class": "blue"
     }
   ]
 }

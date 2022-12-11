@@ -1,5 +1,4 @@
 .maincontainer > div {
-  border: 1px solid black;
   height: auto;
   width: 20%;
 }
@@ -14,10 +13,10 @@
   padding-right: 5px;
 }
 .cardContainer {
-  border: 1px solid black;
   height: auto;
   display: flex;
   justify-content: space-around;
+  font-size: 12px;
 }
 .red > div {
   background-color: #ff9899 !important;
@@ -42,4 +41,14 @@
   margin: 10px;
   height: 40px;
   text-align: center;
+}
+.cardElement {
+  cursor: move;
+  background-color: black;
+  color: #fff;
+  margin-bottom: 1px;
+  transition: all 0.2s;
+}
+.cardElement:hover {
+  background-color: #003366 !important;
 }
