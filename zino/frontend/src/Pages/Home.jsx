@@ -10,7 +10,7 @@ const Home = () => {
 
   const getDataFrom = () => {
     axios
-      .get("http://localhost:8080/cards")
+      .get("https://json-server-heroku-wheat.vercel.app/cards")
       .then((r) => {
         setData(r.data);
       })
@@ -22,7 +22,7 @@ const Home = () => {
     let filteredCard = data.filter((c) => c.class === name);
     if (filteredCard.length < 8) {
       axios
-        .post("http://localhost:8080/cards", {
+        .post("https://json-server-heroku-wheat.vercel.app/cards", {
           id: "",
           title: "New Added",
           class: name,
@@ -39,7 +39,7 @@ const Home = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:8080/cards/${id}`, {})
+      .delete(`https://json-server-heroku-wheat.vercel.app/cards/${id}`, {})
       .then((r) => {
         // console.log(r.data);
         setData(r.data);
