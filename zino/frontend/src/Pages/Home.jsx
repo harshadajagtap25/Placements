@@ -19,19 +19,22 @@ const Home = () => {
     return data;
   };
   const handleAdd = (name) => {
-    axios
-      .post("http://localhost:8080/cards", {
-        id: "",
-        title: "New Added",
-        class: name,
-      })
-      .then((r) => {
-        // console.log(r.data);
-        setData(r.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let filteredCard = data.filter((c) => c.class === name);
+    if (filteredCard.length < 8) {
+      axios
+        .post("http://localhost:8080/cards", {
+          id: "",
+          title: "New Added",
+          class: name,
+        })
+        .then((r) => {
+          // console.log(r.data);
+          setData(r.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const handleDelete = (id) => {
