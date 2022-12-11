@@ -1,0 +1,45 @@
+.maincontainer > div {
+  border: 1px solid black;
+  height: auto;
+  width: 20%;
+}
+
+.addcontainer {
+  display: flex;
+  justify-content: right;
+  margin: auto;
+}
+.addcontainer > div {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.cardContainer {
+  border: 1px solid black;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+}
+.red > div {
+  background-color: #ff9899 !important;
+  margin: 10px;
+  height: 40px;
+  text-align: center;
+}
+.blue > div {
+  background-color: #66b2fe !important;
+  margin: 10px;
+  height: 40px;
+  text-align: center;
+}
+.green > div {
+  background-color: rgb(115, 226, 115) !important;
+  margin: 10px;
+  height: 40px;
+  text-align: center;
+}
+.black > div {
+  background-color: rgb(175, 173, 173) !important;
+  margin: 10px;
+  height: 40px;
+  text-align: center;
+}
